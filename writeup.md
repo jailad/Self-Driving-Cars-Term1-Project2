@@ -87,15 +87,16 @@ The goals / steps of this project are the following:
 
 The key files for this project are:
 
-* writeup.md - Detailed project write-up ( this file ).
+* [writeup.md](https://github.com/jailad/Self-Driving-Cars-Term1-Project2/blob/master/writeup.md) - Detailed project write-up.
 
-* Traffic_Sign_Classifier_submit.ipynb - Fully executed Python notebook - iPynb format.
+* [Traffic_Sign_Classifier_submit/Traffic_Sign_Classifier.md](https://github.com/jailad/Self-Driving-Cars-Term1-Project2/blob/master/Traffic_Sign_Classifier_submit/Traffic_Sign_Classifier.md) - Fully executed Python notebook - Markdown format.
 
-* Traffic_Sign_Classifier_submit.html - Fully executed Python notebook - HTML format.
+* [Traffic_Sign_Classifier_submit.ipynb](https://github.com/jailad/Self-Driving-Cars-Term1-Project2/blob/master/Traffic_Sign_Classifier_submit.ipynb) - Fully executed Python notebook - iPynb format.
 
-* Traffic_Sign_Classifier_submit/Traffic_Sign_Classifier.md - Fully executed Python notebook - Markdown format.
+* [Traffic_Sign_Classifier_submit.html](https://github.com/jailad/Self-Driving-Cars-Term1-Project2/blob/master/Traffic_Sign_Classifier_submit.html) - Fully executed Python notebook - HTML format.
 
-* Traffic_Sign_Classifier_dev.ipynb - The actual developmental Python notebook from which the above submissions were exported.
+* [Traffic_Sign_Classifier_dev.ipynb](https://github.com/jailad/Self-Driving-Cars-Term1-Project2/blob/master/Traffic_Sign_Classifier_dev.ipynb) - The actual developmental Python notebook from which the above submissions were exported.
+
 
 ---
 
