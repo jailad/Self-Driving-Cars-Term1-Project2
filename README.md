@@ -44,11 +44,11 @@ Once the above was installed I used the following packages to build the pipeline
 
 **Key File(s)** :
 
-* writeup.md - Detailed project write-up.
-* Traffic_Sign_Classifier_submit.ipynb - Fully executed Python notebook - iPynb format.
-* Traffic_Sign_Classifier_submit.html - Fully executed Python notebook - HTML format.
-* Traffic_Sign_Classifier_submit/Traffic_Sign_Classifier.md - Fully executed Python notebook - Markdown format.
-* Traffic_Sign_Classifier_dev.ipynb - The actual developmental Python notebook from which the above submissions were exported.
+* [writeup.md](https://github.com/jailad/Self-Driving-Cars-Term1-Project2/blob/master/writeup.md) - Detailed project write-up.
+* [Traffic_Sign_Classifier_submit/Traffic_Sign_Classifier.md](https://github.com/jailad/Self-Driving-Cars-Term1-Project2/blob/master/Traffic_Sign_Classifier_submit/Traffic_Sign_Classifier.md) - Fully executed Python notebook - Markdown format.
+* [Traffic_Sign_Classifier_submit.ipynb](https://github.com/jailad/Self-Driving-Cars-Term1-Project2/blob/master/Traffic_Sign_Classifier_submit.ipynb) - Fully executed Python notebook - iPynb format.
+* [Traffic_Sign_Classifier_submit.html](https://github.com/jailad/Self-Driving-Cars-Term1-Project2/blob/master/Traffic_Sign_Classifier_submit.html) - Fully executed Python notebook - HTML format.
+* [Traffic_Sign_Classifier_dev.ipynb](https://github.com/jailad/Self-Driving-Cars-Term1-Project2/blob/master/Traffic_Sign_Classifier_dev.ipynb) - The actual developmental Python notebook from which the above submissions were exported.
 * checkpoint - Tensorflow Checkpoint.
 * Files named - 'jltrafficclassifier9394' - This is the trained model with 93.94% validation accuracy.
 * SideExperiments.ipynb - a small notebook which I used during the development process, to avoid 'polluting' the main dev notebook.
