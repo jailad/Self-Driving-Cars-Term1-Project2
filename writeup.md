@@ -22,6 +22,18 @@
 [image15]: ./Traffic_Sign_Classifier_submit/output_106_4.png "output_106_4 - Misclassified image from the new image set"
 [image16]: ./Traffic_Sign_Classifier_submit/output_106_5.png "output_106_5 - Misclassified image from the new image set"
 
+[image17]: ./Traffic_Sign_Classifier_submit/output_99_1.png "output_99_1"
+[image18]: ./Traffic_Sign_Classifier_submit/output_99_2.png "output_99_2"
+[image19]: ./Traffic_Sign_Classifier_submit/output_99_3.png "output_99_3"
+[image20]: ./Traffic_Sign_Classifier_submit/output_99_4.png "output_99_4"
+[image21]: ./Traffic_Sign_Classifier_submit/output_99_5.png "output_99_5"
+[image22]: ./Traffic_Sign_Classifier_submit/output_99_6.png "output_99_6"
+[image23]: ./Traffic_Sign_Classifier_submit/output_99_7.png "output_99_7"
+[image24]: ./Traffic_Sign_Classifier_submit/output_99_8.png "output_99_8"
+[image25]: ./Traffic_Sign_Classifier_submit/output_99_9.png "output_99_9"
+[image26]: ./Traffic_Sign_Classifier_submit/output_99_10.png "output_99_10"
+
+
 ---
 
 # Table of contents
@@ -332,7 +344,7 @@ time consuming aspect of the project. An automated strategy for hyper parameter 
 |:-----------------------------:|:-------------------------------------:| 
 | Pedestrians   				| 27	 								|
 | Road narrows on the right 	| 24	 								|
-| VDangerous curve to the right prohibited  	| 20					|
+| Dangerous curve to the right prohibited  	| 20					|
 
 <BR>
 
@@ -375,6 +387,13 @@ time consuming aspect of the project. An automated strategy for hyper parameter 
 
 * Achieved 60% success rate against new images.
 
+* The performance achieved on the test data was 91.7%. Because, we achieved lower performance on these new images, this represents underfitting and the following steps can be taken :
+
+	+ Continue training the model for more epochs, to achieve better accuracy on the validation data set.
+	+ Generate more data for the classes, which we have identified above as having low representation within the training and validation data set, so that the model gets sufficient exposure to those.
+	+ Generate more data for the classes, which we have identified above as having the highest prediction failure rate from within the training and validation data set, so that the model gets additional training for those.
+	+ Repeat testing against the test data set, and against the same new German traffic sign images to evaluate the performance again. 
+
 #### - Misclassified images <a name="newimageperformance3"></a>
 
 ![alt text][image13]
@@ -390,56 +409,139 @@ time consuming aspect of the project. An automated strategy for hyper parameter 
 
 * Softmax probabilities are a measure of how certain a model is, in it's predictions.
 
-* **Misclassified image 1 - 27.gif**
+* We can check, that if a model has had a lot of training on a certain class, and if it's softmax on that class is low ( even though it might be highest among other classes, then it means that the model is not trained properly for that class)
 
-![alt text][image13]
+* **Image 1**
 
-* Softmax predicted class labels for the above image
+![alt text][image17]
 
-	+ [34 37 38 18 26]
+* 
 
-* Predicted labels for the above image
+| Item        					|     Value	      		  					| 
+|:---------------------:|:---------------------------------------------:| 
+| Softmax Probabilities         | 	1.00000000e+00,   1.33695364e-38,   0.00000000e+00,   0.00000000e+00, 0.00000000e+00				   					| 
+| Predicted Class ID   			| 	10, 25,  0,  1,  2									|
+| Predicted Class Label			|	'No passing for vehicles over 3.5 metric ', 'Road work', 'Speed limit (20km/h)', 'Speed limit (30km/h)', 'Speed limit (50km/h)'			|
 
-	+ ['Turn left ahead' 'Go straight or left' 'Keep right'
-  'General caution' 'Traffic signals']
+* **Image 2**
 
-* **Misclassified image 2 - 5.gif**
+![alt text][image18]
 
-![alt text][image14]
+* 
 
-* Softmax predicted class labels for the above image
+| Item        					|     Value	      		  					| 
+|:---------------------:|:---------------------------------------------:| 
+| Softmax Probabilities         | 	1.00000000e+00,   1.61516437e-34,   1.82534450e-37,   0.00000000e+00, 0.00000000e+00				   					| 
+| Predicted Class ID   			| 	13, 35, 14,  0,  1									|
+| Predicted Class Label			|	'Yield', 'Ahead only', 'Stop' 'Speed limit (20km/h)', 'Speed limit (30km/h)'									|
 
-	+ [10 42 9 23 20]
 
-* Predicted labels for the above image
 
-	+ ['No passing for vehicles over 3.5 metric ' 'End of no passing by vehicles over 3.5 m' 'No passing' 'Slippery road' 'Dangerous curve to the right']
+* **Image 3**
 
-* **Misclassified image 3 - unknown.gif**
+![alt text][image19]
 
-![alt text][image15]
+* 
 
-* Softmax predicted class labels for the above image
+| Item        					|     Value	      		  					| 
+|:---------------------:|:---------------------------------------------:| 
+| Softmax Probabilities         | 	8.36239755e-01,   1.63760200e-01,   1.68293114e-19,  8.69938160e-20, 3.53230405e-26				   					| 
+| Predicted Class ID   			| 	 22, 29, 25, 26, 20								|
+| Predicted Class Label			|	'Bumpy road', 'Bicycles crossing', 'Road work', 'Traffic signals', 'Dangerous curve to the right'									|
 
-	+ [38 34 37 26 18]
 
-* Predicted labels for the above image
+* **Image 4**
 
-	+ ['Keep right' 'Turn left ahead' 'Go straight or left'
-  'Traffic signals' 'General caution']
+![alt text][image20]
 
-* **Misclassified image 4 - unknown2.gif**
+* 
 
-![alt text][image16]
+| Item        					|     Value	      		  					| 
+|:---------------------:|:---------------------------------------------:| 
+| Softmax Probabilities         | 	1.00000000e+00,   0.00000000e+00,   0.00000000e+00,  0.00000000e+00, 0.00000000e+00				   					| 
+| Predicted Class ID   			| 	25,  0,  1,  2,  3									|
+| Predicted Class Label			|	'Road work', 'Speed limit (20km/h)', 'Speed limit (30km/h)', 'Speed limit (50km/h)', 'Speed limit (60km/h)' |
 
-* Softmax predicted class labels for the above image
 
-	+ [ 4 21 40  1  5]
+* **Image 5**
 
-* Predicted labels for the above image
+![alt text][image21]
 
-	+ ['Speed limit (70km/h)' 'Double curve' 'Roundabout mandatory'
-  'Speed limit (30km/h)' 'Speed limit (80km/h)']
+* 
+
+| Item        					|     Value	      		  					| 
+|:---------------------:|:---------------------------------------------:| 
+| Softmax Probabilities         | 	1.00000000e+00,   0.00000000e+00,   0.00000000e+00,   0.00000000e+00, 0.00000000e+00				   					| 
+| Predicted Class ID   			| 	26,  0,  1,  2,  3									|
+| Predicted Class Label			|	'Traffic signals', 'Speed limit (20km/h)', 'Speed limit (30km/h)', 'Speed limit (50km/h)', 'Speed limit (60km/h)'	|
+
+
+* **Image 6**
+
+![alt text][image22]
+
+* 
+
+| Item        					|     Value	      		  					| 
+|:---------------------:|:---------------------------------------------:| 
+| Softmax Probabilities         | 	9.99700308e-01,   2.99760082e-04,   1.46460752e-12,   6.96879099e-16, 3.32495213e-16				   					| 
+| Predicted Class ID   			| 	34, 37, 18, 38, 26									|
+| Predicted Class Label			|	'Turn left ahead', 'Go straight or left', 'General caution', 'Keep right', 'Traffic signals'									|
+
+
+* **Image 7**
+
+![alt text][image23]
+
+* 
+
+| Item        					|     Value	      		  					| 
+|:---------------------:|:---------------------------------------------:| 
+| Softmax Probabilities         | 1.00000000e+00,   1.38866761e-18,   1.08513454e-21,   3.79716770e-22, 2.72896037e-24				   					| 
+| Predicted Class ID   			| 	38, 40, 39,  4, 34									|
+| Predicted Class Label			|	'Keep right', 'Roundabout mandatory', 'Keep left', 'Speed limit (70km/h)', 'Turn left ahead'									|
+
+
+* **Image 8**
+
+![alt text][image24]
+
+* 
+
+| Item        					|     Value	      		  					| 
+|:---------------------:|:---------------------------------------------:| 
+| Softmax Probabilities         | 	1.00000000e+00,   6.63560720e-19,   8.44072586e-22,   3.61571741e-29, 3.32280723e-29				   					| 
+| Predicted Class ID   			| 	9, 41, 16, 19, 17									|
+| Predicted Class Label			|	'No passing', 'End of no passing', 'Vehicles over 3.5 metric tons prohibited', 'Dangerous curve to the left', 'No entry'	|
+
+
+* **Image 9**
+
+![alt text][image25]
+
+* 
+
+| Item        					|     Value	      		  					| 
+|:---------------------:|:---------------------------------------------:| 
+| Softmax Probabilities         | 	1.00000000e+00,   3.50037954e-17,   1.57488613e-20,   0.00000000e+00, 0.00000000e+00				   					| 
+| Predicted Class ID   			| 	38, 34, 37,  0,  1									|
+| Predicted Class Label			|	'Keep right', 'Turn left ahead', 'Go straight or left', 'Speed limit (20km/h)', 'Speed limit (30km/h)'						|
+
+
+* **Image 10**
+
+![alt text][image26]
+
+* 
+
+| Item        					|     Value	      		  					| 
+|:---------------------:|:---------------------------------------------:| 
+| Softmax Probabilities         | 	8.15033853e-01,   1.79000258e-01,   5.72654372e-03,   1.10183442e-04, 1.07662265e-04				   					| 
+| Predicted Class ID   			| 	5,  4,  1, 21,  2									|
+| Predicted Class Label			|	'Speed limit (80km/h)', 'Speed limit (70km/h)', 'Speed limit (30km/h)', 'Double curve', 'Speed limit (50km/h)'		|
+
+
+
 
 ---
 

@@ -39,6 +39,7 @@ const_top_k_softmax = 5 # For new image categorization, this constant defines th
 
 const_for_pixel_normalization = 128.0 # Constant for image pixel intensity normalization ( because pixel intensity range is 0, 255 )
 
+
 const_get_top_x_misclassified_classes = 3 # Once a trained model is used to make predictions, this constant is used to determine how many misclassified classes to we want to investigate 
 
 
@@ -118,7 +119,7 @@ print_memory_usage()
 ```
 
     
-    1313760 Kb
+    1320040 Kb
 
 
 ### Convenience Mapper to convert a classId to Sign Name
@@ -379,6 +380,16 @@ else:
     
 ```
 
+    
+    Training Data Keys : dict_keys(['features', 'coords', 'labels', 'sizes'])
+    
+    Found data for pickle_data_for_analysis/X_train_normalized.pickle
+    
+    Found data for pickle_data_for_analysis/y_train_normalized.pickle
+    
+    Normalized training data loaded from Disk.
+
+
 ### Normalize the training data ( if not already normalized ) and store to Disk
 
 
@@ -536,9 +547,9 @@ infoLog("Shape of y_test : " + str(y_test_shape))
 ```
 
     
-    Validation Data Keys : dict_keys(['coords', 'labels', 'sizes', 'features'])
+    Validation Data Keys : dict_keys(['features', 'coords', 'labels', 'sizes'])
     
-    Test Data Keys : dict_keys(['coords', 'features', 'sizes', 'labels'])
+    Test Data Keys : dict_keys(['features', 'coords', 'labels', 'sizes'])
     
     Shape of X_valid : (4410, 32, 32, 3)
     
@@ -1923,13 +1934,14 @@ def load_normalize_and_visualize_new_images():
             resized_image_three_channel = resized_image
             if len(resized_image.shape) > 2 and resized_image.shape[2] == 4: # Check if image has >1 and <4 channels
                 resized_image_three_channel = cv2.cvtColor(resized_image, cv2.COLOR_BGRA2BGR)
-            new_images_list.append(resized_image_three_channel)
-            print("Resized image shape - " + str(resized_image_three_channel.shape))
+            normalized_image = normalize_image(resized_image_three_channel)
+            new_images_list.append(normalized_image)
+            print("Resized image shape - " + str(normalized_image.shape))
             resized_image_three_channel_shape_string = str(resized_image_three_channel.shape)
             debugLog(image_file_relative_path + " Resized and converted to three channels - image shape : " + resized_image_three_channel_shape_string)
             plt.figure(figsize=(3,3))
             plt.title(filename + " - " + resized_image_three_channel_shape_string)
-            plt.imshow(resized_image_three_channel)   
+            plt.imshow(normalized_image)   
     return new_images_list
 
 new_images = np.array(load_normalize_and_visualize_new_images(), dtype=np.float32) # Numpy array conversion to have properly formatted list data
@@ -2060,7 +2072,7 @@ debugLog("Completed predictions against new images.")
     
     Starting predictions against new images.
     
-    Best Class predictions for new images are : [10 13 22 25 26 34 38  9 38  4]
+    Best Class predictions for new images are : [10 13 22 25 26 34 38  9 38  5]
     
     predicted_sign_name : No passing for vehicles over 3.5 metric tons
     
@@ -2080,7 +2092,7 @@ debugLog("Completed predictions against new images.")
     
     predicted_sign_name : Keep right
     
-    predicted_sign_name : Speed limit (70km/h)
+    predicted_sign_name : Speed limit (80km/h)
     
     Completed predictions against new images.
 
@@ -2253,7 +2265,7 @@ top_labels_list_for_new_images = None # List of predicted labels for the new ima
 ### Testing the trained model against test data
 with tf.Session() as sess:
     saver.restore(sess, tf.train.latest_checkpoint('.'))
-    top_predictions = tf.nn.top_k(logits,const_top_k_softmax)
+    top_predictions = tf.nn.top_k(tf.nn.softmax(logits),const_top_k_softmax)
     top_prediction_values, top_prediction_indices = sess.run(top_predictions, feed_dict={x: new_images, keep_prob:1})
     
     top_labels_list_for_new_images = np.empty(top_prediction_indices.shape,dtype="S40")
@@ -2265,7 +2277,7 @@ with tf.Session() as sess:
     debugLog("Top five predicted classification IDs for each new image : " + "\n" + str(top_prediction_indices))
     debugLog("Top five predicted softmax probabilities for each new image : " + "\n" + str(top_prediction_values))
     debugLog("Top five predicted classification Names for each new image : " + "\n" + str(top_labels_list_for_new_images))
-  
+
 debugLog("Completed top 5 Softmax probabilities for new German traffic images found on the web.")
 ```
 
@@ -2273,61 +2285,61 @@ debugLog("Completed top 5 Softmax probabilities for new German traffic images fo
     Starting top 5 Softmax probabilities for new German traffic images found on the web.
     
     Top five predicted classification IDs for each new image : 
-    [[10 42  9 23 20]
-     [13 35 14 12 38]
+    [[10 25  0  1  2]
+     [13 35 14  0  1]
      [22 29 25 26 20]
-     [25  5 20  1 33]
-     [26 18 25 14 12]
-     [34 37 38 18 26]
-     [38 39  4 40 34]
-     [ 9 41 16 17 19]
-     [38 34 37 26 18]
-     [ 4 21 40  1  5]]
+     [25  0  1  2  3]
+     [26  0  1  2  3]
+     [34 37 18 38 26]
+     [38 40 39  4 34]
+     [ 9 41 16 19 17]
+     [38 34 37  0  1]
+     [ 5  4  1 21  2]]
     
     Top five predicted softmax probabilities for each new image : 
-    [[  8335.83300781   2348.12255859   1901.12780762   1861.78588867
-        1805.05773926]
-     [  8925.43261719    816.16271973    248.01979065   -347.30929565
-       -1119.0526123 ]
-     [  5780.97265625   5295.85595703   2839.86523438   1358.33337402
-         351.11810303]
-     [ 18895.16992188    385.11053467    109.29756165  -1021.15533447
-       -1568.81652832]
-     [ 10750.28613281     40.41530609   -856.95379639  -1990.81176758
-       -2081.71484375]
-     [  5866.06494141   3637.19189453   2145.17993164   2095.66210938
-        1761.33703613]
-     [  4890.07373047    647.90124512    410.08132935    222.31037903
-       -1279.0090332 ]
-     [  5422.94628906   2618.82104492   1696.76574707    330.7180481
-        -601.87249756]
-     [  7466.10351562   3728.62011719   3375.50537109  -1669.81811523
-       -1713.71276855]
-     [  1268.84423828    879.82836914    513.57202148    506.54882812
-         343.88961792]]
+    [[  1.00000000e+00   1.33695364e-38   0.00000000e+00   0.00000000e+00
+        0.00000000e+00]
+     [  1.00000000e+00   1.61516437e-34   1.82534450e-37   0.00000000e+00
+        0.00000000e+00]
+     [  8.36239755e-01   1.63760200e-01   1.68293114e-19   8.69938160e-20
+        3.53230405e-26]
+     [  1.00000000e+00   0.00000000e+00   0.00000000e+00   0.00000000e+00
+        0.00000000e+00]
+     [  1.00000000e+00   0.00000000e+00   0.00000000e+00   0.00000000e+00
+        0.00000000e+00]
+     [  9.99700308e-01   2.99760082e-04   1.46460752e-12   6.96879099e-16
+        3.32495213e-16]
+     [  1.00000000e+00   1.38866761e-18   1.08513454e-21   3.79716770e-22
+        2.72896037e-24]
+     [  1.00000000e+00   6.63560720e-19   8.44072586e-22   3.61571741e-29
+        3.32280723e-29]
+     [  1.00000000e+00   3.50037954e-17   1.57488613e-20   0.00000000e+00
+        0.00000000e+00]
+     [  8.15033853e-01   1.79000258e-01   5.72654372e-03   1.10183442e-04
+        1.07662265e-04]]
     
     Top five predicted classification Names for each new image : 
-    [[b'No passing for vehicles over 3.5 metric '
-      b'End of no passing by vehicles over 3.5 m' b'No passing'
-      b'Slippery road' b'Dangerous curve to the right']
-     [b'Yield' b'Ahead only' b'Stop' b'Priority road' b'Keep right']
+    [[b'No passing for vehicles over 3.5 metric ' b'Road work'
+      b'Speed limit (20km/h)' b'Speed limit (30km/h)' b'Speed limit (50km/h)']
+     [b'Yield' b'Ahead only' b'Stop' b'Speed limit (20km/h)'
+      b'Speed limit (30km/h)']
      [b'Bumpy road' b'Bicycles crossing' b'Road work' b'Traffic signals'
       b'Dangerous curve to the right']
-     [b'Road work' b'Speed limit (80km/h)' b'Dangerous curve to the right'
-      b'Speed limit (30km/h)' b'Turn right ahead']
-     [b'Traffic signals' b'General caution' b'Road work' b'Stop'
-      b'Priority road']
-     [b'Turn left ahead' b'Go straight or left' b'Keep right'
-      b'General caution' b'Traffic signals']
-     [b'Keep right' b'Keep left' b'Speed limit (70km/h)'
-      b'Roundabout mandatory' b'Turn left ahead']
+     [b'Road work' b'Speed limit (20km/h)' b'Speed limit (30km/h)'
+      b'Speed limit (50km/h)' b'Speed limit (60km/h)']
+     [b'Traffic signals' b'Speed limit (20km/h)' b'Speed limit (30km/h)'
+      b'Speed limit (50km/h)' b'Speed limit (60km/h)']
+     [b'Turn left ahead' b'Go straight or left' b'General caution'
+      b'Keep right' b'Traffic signals']
+     [b'Keep right' b'Roundabout mandatory' b'Keep left'
+      b'Speed limit (70km/h)' b'Turn left ahead']
      [b'No passing' b'End of no passing'
-      b'Vehicles over 3.5 metric tons prohibited' b'No entry'
-      b'Dangerous curve to the left']
+      b'Vehicles over 3.5 metric tons prohibited'
+      b'Dangerous curve to the left' b'No entry']
      [b'Keep right' b'Turn left ahead' b'Go straight or left'
-      b'Traffic signals' b'General caution']
-     [b'Speed limit (70km/h)' b'Double curve' b'Roundabout mandatory'
-      b'Speed limit (30km/h)' b'Speed limit (80km/h)']]
+      b'Speed limit (20km/h)' b'Speed limit (30km/h)']
+     [b'Speed limit (80km/h)' b'Speed limit (70km/h)' b'Speed limit (30km/h)'
+      b'Double curve' b'Speed limit (50km/h)']]
     
     Completed top 5 Softmax probabilities for new German traffic images found on the web.
 
